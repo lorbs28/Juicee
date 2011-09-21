@@ -2,8 +2,8 @@
 <html>
 <head>
   <title>Juicee! | <%= @title %></title>
-  <%= stylesheet_link_tag    "default", "application" %>
-  <%= javascript_include_tag "application" %>
+  <%= stylesheet_link_tag "default", "application", :cache => false %>
+  <%= javascript_include_tag "application", :cache => false %>
   <%= csrf_meta_tags %>
 </head>
 <body>
