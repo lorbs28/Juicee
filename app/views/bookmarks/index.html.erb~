@@ -1,6 +1,6 @@
 <h1>Listing bookmarks</h1>
 
-<table class="bookmark_table_output">
+<table>
   <tr>
     <th>Url</th>
     <th>Name</th>
@@ -22,3 +22,6 @@
 <% end %>
 </table>
 
+<br />
+
+<%= link_to 'New Bookmark', new_bookmark_path %>

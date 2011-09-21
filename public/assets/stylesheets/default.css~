@@ -132,7 +132,7 @@ h1,h2,h3 {color: #654;}
 	list-style: none;
 }
 .navigation li a {
-	background: #E8F6BF url(../images/bgnavigation.gif) repeat-x;
+	background: #E8F6BF url(../images/bgnavigation.gif) repeat-x;	
 	color: #553;
 	display: block;
 	padding: 8px 4px 8px 12px;

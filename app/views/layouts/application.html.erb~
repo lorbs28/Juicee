@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Juicee</title>
-  <%= stylesheet_link_tag    "application" %>
+  <title>CheckIt</title>
+  <%= stylesheet_link_tag    "stylesheets/default", "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-<%= yield %>
+<div class="container">
 
+	<div class="top">
+		<a href="#"><span>Juicee!</span></a>
+	</div>
+
+	<div class="header"></div>
+
+	<div class="main">
+
+		<div class="item">
+			<div class="content">
+				<div class="body">
+					<%= yield %>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="navigation">
+
+		<h1>Navigation</h1>
+		<ul>
+			<li><%= link_to 'Create bookmark', new_bookmark_path %></li>
+			<li><%= link_to 'View bookmarks', bookmarks_path %></li>
+		</ul>
+	</div>
+</div>
 </body>
 </html>
