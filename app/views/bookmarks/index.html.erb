@@ -1,24 +1,4 @@
 <h1>Listing bookmarks</h1>
 
-<table class="bookmark_table_output">
-  <tr>
-    <th>Url</th>
-    <th>Name</th>
-    <th>Date</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @bookmarks.each do |bookmark| %>
-  <tr>
-    <td><%= bookmark.url %></td>
-    <td><%= bookmark.name %></td>
-    <td><%= bookmark.date %></td>
-    <td><%= link_to 'Show', bookmark %></td>
-    <td><%= link_to 'Edit', edit_bookmark_path(bookmark) %></td>
-    <td><%= link_to 'Destroy', bookmark, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
+<%= render 'list' %>
 
