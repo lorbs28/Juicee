@@ -6,6 +6,8 @@ gem 'rails', '3.1.0'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3', :group => :development
+gem 'will_paginate'
+gem 'rack' , '1.3.3'
 
 
 # Gems used only for assets and not required
@@ -32,10 +34,13 @@ group :test do
   gem 'turn', :require => false
   gem 'rspec-rails'
   gem 'webrat'
+  gem 'factory_girl_rails'
+  gem 'autotest'
 end
 
 group :development do
   gem 'rspec-rails'
+  gem 'annotate', :git => 'git://github.com/jeremyolliver/annotate_models.git', :branch => 'rake_compatibility'
 end
 
 group :production do

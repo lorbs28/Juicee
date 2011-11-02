@@ -2,7 +2,6 @@
   <tr>
     <th>Url</th>
     <th>Name</th>
-    <th>Date</th>
     <th></th>
     <th></th>
     <th></th>
@@ -12,7 +11,6 @@
   <tr>
     <td><%= bookmark.url %></td>
     <td><%= bookmark.name %></td>
-    <td><%= bookmark.date %></td>
     <td><%= link_to 'Show', bookmark %></td>
     <td><%= link_to 'Edit', edit_bookmark_path(bookmark) %></td>
     <td><%= link_to 'Destroy', bookmark, confirm: 'Are you sure?', method: :delete %></td>

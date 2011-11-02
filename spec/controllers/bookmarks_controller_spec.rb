@@ -28,8 +28,7 @@ describe BookmarksController do
   def valid_attributes
       {
           :url => 'www.yahoo.com',
-          :name => 'Yahoo',
-          :date => '2011-09-21' }
+          :name => 'Yahoo' }
   end
 
   before(:each) do
