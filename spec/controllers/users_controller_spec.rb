@@ -7,6 +7,23 @@ describe UsersController do
         @base_title = "Juicee!"
     end
 
+    describe "GET 'show'" do
+
+      before(:each) do
+        @user = Factory(:user)
+      end
+
+      it "should be successful" do
+        get :show, :id => @user
+        response.should be_success
+      end
+
+      it "should find the right user" do
+        get :show, :id => @user
+        assigns(:user).should == @user
+      end
+    end
+
     ##########################
     # Controller: Users
     # Action: 'index'
@@ -104,12 +121,12 @@ describe UsersController do
               post :create, :user => @attr
               response.should redirect_to(user_path(assigns(:user)))
             end
-        #
-        #    it "should have a welcome message" do
-        #      post :create, :user => @attr
-        #      flash[:success].should =~ /Welcome Marky, you are now registered to use Juicee!/i
-        #    end
-        #
+
+            it "should have a welcome message" do
+              post :create, :user => @attr
+              flash[:success].should =~ /Welcome Marky, you are now registered to use Juicee!/i
+            end
+
         #    it "should sign the user in" do
         #      post :create, :user => @attr
         #      controller.should be_signed_in

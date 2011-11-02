@@ -21,6 +21,9 @@
 		<div class="item">
 			<div class="content">
 				<div class="body">
+				<% flash.each do |key, value| %>
+				        <div class="flash <%= key %>"><%= value %></div>
+                    <% end %>
 					<%= yield %>
 				</div>
 			</div>

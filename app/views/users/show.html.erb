@@ -1,0 +1,10 @@
+<div id="user_profile">
+<h1>User Profile Overview</h1>
+<span>First Name:</span> <%= @user.first_name %><br />
+<span>Last Name:</span> <%= @user.last_name %><br />
+<span>Username:</span> <%= @user.user_name %><br />
+<span>Email:</span> <%= @user.email %><br />
+<br />
+<%= link_to 'Edit', edit_user_path(@user) %>
+</div>
+

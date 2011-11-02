@@ -1,0 +1,21 @@
+# Logfile created on 2011-11-02 18:03:53 -0500 by logger.rb/v1.2.7
+REQUESTING PAGE: GET /register with {} and HTTP headers {}
+REQUESTING PAGE: POST /users with {"utf8"=>"✓", "user"=>{"first_name"=>"", "last_name"=>"", "user_name"=>"", "email"=>"", "password"=>"", "password_confirmation"=>""}, "commit"=>"Register"} and HTTP headers {"HTTP_REFERER"=>"/register"}
+REQUESTING PAGE: GET /register with {} and HTTP headers {}
+REQUESTING PAGE: POST /users with {"utf8"=>"✓", "user"=>{"first_name"=>"Johnny", "last_name"=>"Appleseed", "user_name"=>"j_apple", "email"=>"japplesee@gmail.com", "password"=>"foobar1123", "password_confirmation"=>"foobar1123"}, "commit"=>"Register"} and HTTP headers {"HTTP_REFERER"=>"/register"}
+REQUESTING PAGE: GET http://www.example.com/users/1 with {} and HTTP headers {"HTTP_REFERER"=>"/users"}
+REQUESTING PAGE: GET /register with {} and HTTP headers {}
+REQUESTING PAGE: POST /users with {"utf8"=>"✓", "user"=>{"first_name"=>"", "last_name"=>"", "user_name"=>"", "email"=>"", "password"=>"", "password_confirmation"=>""}, "commit"=>"Register"} and HTTP headers {"HTTP_REFERER"=>"/register"}
+REQUESTING PAGE: GET /register with {} and HTTP headers {}
+REQUESTING PAGE: POST /users with {"utf8"=>"✓", "user"=>{"first_name"=>"Johnny", "last_name"=>"Appleseed", "user_name"=>"j_apple", "email"=>"japplesee@gmail.com", "password"=>"foobar1123", "password_confirmation"=>"foobar1123"}, "commit"=>"Register"} and HTTP headers {"HTTP_REFERER"=>"/register"}
+REQUESTING PAGE: GET http://www.example.com/users/1 with {} and HTTP headers {"HTTP_REFERER"=>"/users"}
+REQUESTING PAGE: GET /register with {} and HTTP headers {}
+REQUESTING PAGE: POST /users with {"utf8"=>"✓", "user"=>{"first_name"=>"", "last_name"=>"", "user_name"=>"", "email"=>"", "password"=>"", "password_confirmation"=>""}, "commit"=>"Register"} and HTTP headers {"HTTP_REFERER"=>"/register"}
+REQUESTING PAGE: GET /register with {} and HTTP headers {}
+REQUESTING PAGE: POST /users with {"utf8"=>"✓", "user"=>{"first_name"=>"Johnny", "last_name"=>"Appleseed", "user_name"=>"j_apple", "email"=>"japplesee@gmail.com", "password"=>"foobar1123", "password_confirmation"=>"foobar1123"}, "commit"=>"Register"} and HTTP headers {"HTTP_REFERER"=>"/register"}
+REQUESTING PAGE: GET http://www.example.com/users/1 with {} and HTTP headers {"HTTP_REFERER"=>"/users"}
+REQUESTING PAGE: GET /register with {} and HTTP headers {}
+REQUESTING PAGE: POST /users with {"utf8"=>"✓", "user"=>{"first_name"=>"", "last_name"=>"", "user_name"=>"", "email"=>"", "password"=>"", "password_confirmation"=>""}, "commit"=>"Register"} and HTTP headers {"HTTP_REFERER"=>"/register"}
+REQUESTING PAGE: GET /register with {} and HTTP headers {}
+REQUESTING PAGE: POST /users with {"utf8"=>"✓", "user"=>{"first_name"=>"Johnny", "last_name"=>"Appleseed", "user_name"=>"j_apple", "email"=>"japplesee@gmail.com", "password"=>"foobar1123", "password_confirmation"=>"foobar1123"}, "commit"=>"Register"} and HTTP headers {"HTTP_REFERER"=>"/register"}
+REQUESTING PAGE: GET http://www.example.com/users/1 with {} and HTTP headers {"HTTP_REFERER"=>"/users"}

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CheckIt</title>
-  <%= stylesheet_link_tag    "stylesheets/default", "application" %>
-  <%= javascript_include_tag "application" %>
+  <title>Juicee! | <%= @title %></title>
+  <%= stylesheet_link_tag "default", "application", :cache => false %>
+  <%= javascript_include_tag "application", :cache => false %>
   <%= csrf_meta_tags %>
 </head>
 <body>
