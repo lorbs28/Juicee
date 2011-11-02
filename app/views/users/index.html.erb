@@ -1,0 +1,6 @@
+<% @user = current_user %>
+<h1>Welcome!</h1>
+
+<p>Hello, <%= [@user.first_name, @user.last_name].join(" ") %>!</p>
+<p>You are logged in as: <%= @user.user_name %>.</p>
+

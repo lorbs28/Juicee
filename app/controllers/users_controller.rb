@@ -1,5 +1,20 @@
 class UsersController < ApplicationController
 
+    def index
+        @user = current_user
+
+        # If current user is signed in, then render the 'index' view
+        if signed_in?
+            @bookmark = Bookmark.new
+            @title = [@user.first_name, @user.last_name].join(" ")
+            render 'index'
+        else
+            # Else if the current user is not signed in, redirect the user
+            # to the signin page at 'sessions/new'
+            redirect_to signin_path
+        end
+
+    end
     # This action is called to display the current user's information on the
     # 'show' view
     def show
@@ -25,13 +40,13 @@ class UsersController < ApplicationController
       # If the user was saved to the database, then sign in the user automatically
       # and flash a message telling the user that they are now registered
       if @user.save
-          #sign_in @user
+          sign_in @user
           flash[:success] = "Welcome #{@user.first_name}, you are now registered to use Juicee!"
           redirect_to @user
       else
           # If the user was not saved to the database, render the registration page again
           @title = "Register"
-        render 'new'
+          render 'new'
       end
     end
 

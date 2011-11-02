@@ -1,0 +1,18 @@
+<h1>Navigation</h1>
+		<ul>
+		    <li><%= link_to "Home", root_path %></li>
+		    <% if signed_in? %>
+		        <li><%= link_to "Profile", current_user %></li>
+		        <li><%= link_to "Settings", edit_user_path(current_user) %></li>
+            <% end %>
+		    <% if signed_in? %>
+		        <li><%= link_to "Sign Out", signout_path, :method => :delete %></li>
+		    <% else %>
+		        <li><%= link_to "Sign In", signin_path %></li>
+		        <li><%= link_to "Register", register_path %></li>
+		    <% end %>
+		    	<li><%= link_to 'Create bookmark', new_bookmark_path %></li>
+		    	<li><%= link_to 'View bookmarks', bookmarks_path %></li>
+		    	<li><%= link_to 'Help', '#' %></li>
+		</ul>
+

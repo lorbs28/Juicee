@@ -31,12 +31,9 @@
 	</div>
 	<div class="navigation">
 
-		<h1>Navigation</h1>
-		<ul>
-			<li><%= link_to 'Create bookmark', new_bookmark_path %></li>
-			<li><%= link_to 'View bookmarks', bookmarks_path %></li>
-		</ul>
+		<%= render 'layouts/navigation' %>
 	</div>
+
 </div>
 </body>
 </html>
