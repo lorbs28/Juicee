@@ -32,6 +32,8 @@ describe User do
         User.create!(@attr)
     end
 
+
+
     ##########################
     # Model: User
     # Test: test to require a first name
@@ -141,5 +143,144 @@ describe User do
         User.create!(@attr)
         user_with_duplicate_user_name = User.new(@attr)
         user_with_duplicate_user_name.should_not be_valid
+    end
+
+    describe "password validations" do
+
+
+        ##########################
+        # Model: User
+        # Test: test to require a password in the password field
+        #
+        ##########################
+        it "should require a password" do
+          User.new(@attr.merge(:password => "", :password_confirmation => "")).
+            should_not be_valid
+        end
+
+        ##########################
+        # Model: User
+        # Test: test to make sure that the password matches with its password
+        #       confirmation
+        #
+        ##########################
+        it "should require a matching password confirmation" do
+          User.new(@attr.merge(:password_confirmation => "invalid")).
+            should_not be_valid
+        end
+
+        ##########################
+        # Model: User
+        # Test: test to make sure that passwords less than 7 characters are not accepted
+        #
+        ##########################
+        it "should reject short passwords" do
+          short = "a" * 6
+          hash = @attr.merge(:password => short, :password_confirmation => short)
+          User.new(hash).should_not be_valid
+        end
+
+        ##########################
+        # Model: User
+        # Test: test to make sure that passwords longer than 40 characters are not accepted
+        #
+        ##########################
+        it "should reject long passwords" do
+          long = "a" * 41
+          hash = @attr.merge(:password => long, :password_confirmation => long)
+          User.new(hash).should_not be_valid
+        end
+    end
+
+    describe "password encryption" do
+
+        before(:each) do
+          @user = User.create!(@attr)
+        end
+
+        ##########################
+        # Model: User
+        # Test: test to make sure there is an encrypted password attribute
+        #
+        ##########################
+        it "should have an encrypted password attribute" do
+          @user.should respond_to(:encrypted_password)
+        end
+
+        ##########################
+        # Model: User
+        # Test: test to make sure the encrypted password is set
+        #
+        ##########################
+        it "should set the encrypted password" do
+          @user.encrypted_password.should_not be_blank
+        end
+
+        ##########################
+        # Model: User
+        # Test: tests for the user's submitted password
+        #
+        ##########################
+        describe "has_password? method" do
+
+          ##########################
+          # Model: User
+          # Test: test to see if the submitted password matches the encrypted
+          #       password
+          #
+          ##########################
+          it "should be true if the passwords match" do
+            @user.has_password?(@attr[:password]).should be_true
+          end
+
+          ##########################
+          # Model: User
+          # Test: test to make sure that the return value is false if the
+          #       submitted password does not match the encrypted password
+          #
+          ##########################
+          it "should be false if the passwords don't match" do
+            @user.has_password?("invalid").should be_false
+          end
+        end
+
+        ##########################
+        # Model: User
+        # Test: tests for authentication
+        #
+        ##########################
+        describe "authenticate method" do
+
+            ##########################
+            # Model: User
+            # Test: test to see if the return value is nil for user/pass mismatch
+            #
+            ##########################
+            it "should return nil on username/password mismatch" do
+              wrong_password_user = User.authenticate(@attr[:user_name], "wrongpass")
+            wrong_password_user.should be_nil
+          end
+
+          ##########################
+          # Model: User
+          # Test: test to see if the return value is nil for a username belonging to no
+          #       user
+          #
+          ##########################
+          it "should return nil for a username with no user" do
+              nonexistent_user = User.authenticate("barfoo0101", @attr[:password])
+            nonexistent_user.should be_nil
+          end
+
+          ##########################
+          # Model: User
+          # Test: test to see if the user is returned when user/pass are matches
+          #
+          ##########################
+          it "should return the user on username/password match" do
+              matching_user = User.authenticate(@attr[:user_name], @attr[:password])
+            matching_user.should == @user
+          end
+        end
     end
 end
