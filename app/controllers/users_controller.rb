@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+    before_filter :authenticate, :only => [:index, :edit, :update]
+    before_filter :correct_user, :only => [:edit, :update]
 
     def index
         @user = current_user
@@ -50,5 +52,34 @@ class UsersController < ApplicationController
       end
     end
 
+    # This action is called to let the current user update their profile
+    def edit
+        @title = "Edit Profile"
+        @user = User.find(params[:id])
+    end
 
+    # This action is called by the form for editing the user profile
+    def update
+      @user = User.find(params[:id])
+
+      # If the update was successful, then flash a message telling the user that
+      # their profile was updated
+      if @user.update_attributes(params[:user])
+        flash[:success] = "Profile updated."
+        redirect_to @user
+      else
+          # If the update was not successful, then render the 'edit' page
+          @title = "Edit Profile"
+          render 'edit'
+      end
+    end
+
+    private
+
+    # Private action that assures that only the correct users can get unto the right page.
+    # Used at the beginning of this controller in the before_filter
+    def correct_user
+      @user = User.find(params[:id])
+      redirect_to(root_path) unless current_user?(@user)
+    end
 end

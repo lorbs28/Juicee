@@ -24,8 +24,8 @@ class SessionsController < ApplicationController
           # If the user variable does NOT return nil, then sign in the user
           # and redirect it back to 'index'
           sign_in user
-          redirect_to user
-          #redirect_back_or user
+          #redirect_to user
+          redirect_back_or user
       end
   end
 
