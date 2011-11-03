@@ -3,7 +3,7 @@ Juicee::Application.routes.draw do
   resources :users
   resources :sessions, :only => [:new, :create, :destroy]
 
-  root :to => 'users#index'
+  root :to => 'bookmarks#index'
 
   match '/signin',  :to => 'sessions#new'
   match '/signout', :to => 'sessions#destroy'

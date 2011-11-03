@@ -29,7 +29,7 @@ class BookmarksController < ApplicationController
 
   def destroy
     @bookmark.destroy
-    redirect_back_or @bookmark
+    redirect_back_or marks_path
   end
 
   def index

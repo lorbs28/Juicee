@@ -5,14 +5,12 @@
     <th>Date</th>
     <th></th>
     <th></th>
-    <th></th>
   </tr>
 <% current_user.bookmarks.each do |bookmark| %>
   <tr>
     <td><span class="url"><%= bookmark.url %></span></td>
     <td><%= bookmark.name %></td>
     <td><%= l bookmark.created_at, :format => :short %></td>
-    <td><%= link_to 'Show', bookmark %></td>
     <td><%= link_to 'Edit', edit_bookmark_path(bookmark) %></td>
     <td><%= link_to 'Destroy', bookmark, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
