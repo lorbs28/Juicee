@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
     attr_accessible :first_name, :last_name, :user_name, :email, :password,
         :password_confirmation
 
+    has_many :bookmarks, :dependent => :destroy
+
     email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
     validates :first_name, :presence => true,

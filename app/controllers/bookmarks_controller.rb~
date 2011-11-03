@@ -3,6 +3,7 @@ class BookmarksController < ApplicationController
   # GET /bookmarks.json
   def index
     @bookmarks = Bookmark.all
+    @title = "Home"
 
     respond_to do |format|
       format.html # index.html.erb
@@ -25,6 +26,7 @@ class BookmarksController < ApplicationController
   # GET /bookmarks/new.json
   def new
     @bookmark = Bookmark.new
+    @title = "New"
 
     respond_to do |format|
       format.html # new.html.erb

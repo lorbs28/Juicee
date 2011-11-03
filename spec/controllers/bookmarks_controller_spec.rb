@@ -19,170 +19,156 @@ require 'spec_helper'
 # that an instance is receiving a specific message.
 
 describe BookmarksController do
-    render_views
+  render_views
 
   # This should return the minimal set of attributes required to create a valid
   # Bookmark. As you add validations to Bookmark, be sure to
   # update the return value of this method accordingly.
 
-  def valid_attributes
-      {
-          :url => 'www.yahoo.com',
-          :name => 'Yahoo' }
-  end
-
   before(:each) do
-    @base_title = "Juicee!"
+        @base_title = "Juicee!"
   end
 
-  describe "GET index" do
-    it "assigns all bookmarks as @bookmarks" do
-      bookmark = Bookmark.create! valid_attributes
-      get :index
-      assigns(:bookmarks).should eq([bookmark])
+  #def valid_attributes
+  #    {
+  #              :url => "www.yahoo.com",
+  #              :name => "yahoo.com"
+  #    }
+  #end
+
+
+
+  describe "access control" do
+
+    it "should deny access to 'create'" do
+      post :create
+      response.should redirect_to(signin_path)
     end
 
-    it "should be successful" do
-        get 'index'
-      response.should be_success
+    it "should deny access to 'bookmarks index'" do
+        get :index
+      response.should redirect_to(signin_path)
     end
 
-    it "should have the right title" do
-        get 'index'
-        response.should have_selector("title",
-            :content => @base_title + " | Home")
+    it "should deny access to 'destroy'" do
+      delete :destroy, :id => 1
+      response.should redirect_to(signin_path)
     end
+  end
 
+  describe "GET 'index'" do
+      before(:each) do
+          @user = test_sign_in(Factory(:user))
+      end
+
+      it "should be successful" do
+          get :index, :id => @user
+        response.should be_success
+      end
+
+      it "should show the user's bookmarks" do
+        mp1 = Factory(:bookmark, :user => @user, :url => "www.yahoo.com")
+        mp2 = Factory(:bookmark, :user => @user, :url => "www.google.com")
+        get :index, :id => @user
+        response.should have_selector("span.url", :content => mp1.url)
+        response.should have_selector("span.url", :content => mp2.url)
+      end
   end
 
   describe "GET show" do
-    it "assigns the requested bookmark as @bookmark" do
-      bookmark = Bookmark.create! valid_attributes
-      get :show, :id => bookmark.id.to_s
-      assigns(:bookmark).should eq(bookmark)
-    end
-  end
-
-  describe "GET new" do
-    it "assigns a new bookmark as @bookmark" do
-      get :new
-      assigns(:bookmark).should be_a_new(Bookmark)
+    before(:each) do
+            @bookmark = Factory(:bookmark)
     end
 
     it "should be successful" do
-        get 'new'
+      get :show, :id => @bookmark
       response.should be_success
     end
-
-    it "should have the right title" do
-        get 'new'
-        response.should have_selector("title",
-            :content => @base_title + " | New")
-    end
   end
 
-  describe "GET edit" do
-    it "assigns the requested bookmark as @bookmark" do
-      bookmark = Bookmark.create! valid_attributes
-      get :edit, :id => bookmark.id.to_s
-      assigns(:bookmark).should eq(bookmark)
+
+  describe "POST 'create'" do
+
+    before(:each) do
+        @user = test_sign_in(Factory(:user))
     end
-  end
 
-  describe "POST create" do
-    describe "with valid params" do
-      it "creates a new Bookmark" do
-        expect {
-          post :create, :bookmark => valid_attributes
-        }.to change(Bookmark, :count).by(1)
+    describe "failure" do
+
+      before(:each) do
+        @attr = { :url => "",
+                :name => "" }
       end
 
-      it "assigns a newly created bookmark as @bookmark" do
-        post :create, :bookmark => valid_attributes
-        assigns(:bookmark).should be_a(Bookmark)
-        assigns(:bookmark).should be_persisted
+      it "should not create a bookmark" do
+        lambda do
+          post :create, :bookmark => @attr
+        end.should_not change(Bookmark, :count)
       end
 
-      it "redirects to the created bookmark" do
-        post :create, :bookmark => valid_attributes
-        response.should redirect_to(Bookmark.last)
+      it "should render the home page" do
+        post :create, :bookmark => @attr
+        response.should render_template('new')
       end
     end
 
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved bookmark as @bookmark" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Bookmark.any_instance.stub(:save).and_return(false)
-        post :create, :bookmark => {}
-        assigns(:bookmark).should be_a_new(Bookmark)
+    describe "success" do
+
+      before(:each) do
+        @attr = { :url => "www.yahoo.com",
+                :name => "yahoo.com" }
       end
 
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Bookmark.any_instance.stub(:save).and_return(false)
-        post :create, :bookmark => {}
-        response.should render_template("new")
-      end
-    end
-  end
-
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested bookmark" do
-        bookmark = Bookmark.create! valid_attributes
-        # Assuming there are no other bookmarks in the database, this
-        # specifies that the Bookmark created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        Bookmark.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, :id => bookmark.id, :bookmark => {'these' => 'params'}
+      it "should create a bookmark" do
+        lambda do
+          post :create, :bookmark => @attr
+        end.should change(Bookmark, :count).by(1)
       end
 
-      it "assigns the requested bookmark as @bookmark" do
-        bookmark = Bookmark.create! valid_attributes
-        put :update, :id => bookmark.id, :bookmark => valid_attributes
-        assigns(:bookmark).should eq(bookmark)
+      it "should redirect to the home page" do
+        post :create, :bookmark => @attr
+        response.should redirect_to(bookmark_path(assigns(:bookmark)))
       end
 
-      it "redirects to the bookmark" do
-        bookmark = Bookmark.create! valid_attributes
-        put :update, :id => bookmark.id, :bookmark => valid_attributes
-        response.should redirect_to(bookmark)
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns the bookmark as @bookmark" do
-        bookmark = Bookmark.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Bookmark.any_instance.stub(:save).and_return(false)
-        put :update, :id => bookmark.id.to_s, :bookmark => {}
-        assigns(:bookmark).should eq(bookmark)
-      end
-
-      it "re-renders the 'edit' template" do
-        bookmark = Bookmark.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Bookmark.any_instance.stub(:save).and_return(false)
-        put :update, :id => bookmark.id.to_s, :bookmark => {}
-        response.should render_template("edit")
+      it "should have a flash message" do
+        post :create, :bookmark => @attr
+        flash[:success].should =~ /bookmark created/i
       end
     end
   end
 
-  describe "DELETE destroy" do
-    it "destroys the requested bookmark" do
-      bookmark = Bookmark.create! valid_attributes
-      expect {
-        delete :destroy, :id => bookmark.id.to_s
-      }.to change(Bookmark, :count).by(-1)
+  describe "DELETE 'destroy'" do
+
+    describe "for an unauthorized user" do
+
+      before(:each) do
+        @user = Factory(:user)
+        wrong_user = Factory(:user, :user_name => "user#{rand(1000).to_s}",
+            :email => "email#{rand(1000).to_s}@soco.org")
+        test_sign_in(wrong_user)
+        @bookmark = Factory(:bookmark, :user => @user)
+      end
+
+      it "should deny access" do
+        delete :destroy, :id => @bookmark
+        response.should redirect_to(root_path)
+      end
     end
 
-    it "redirects to the bookmarks list" do
-      bookmark = Bookmark.create! valid_attributes
-      delete :destroy, :id => bookmark.id.to_s
-      response.should redirect_to(bookmarks_url)
+    describe "for an authorized user" do
+
+      before(:each) do
+        @user = test_sign_in(Factory(:user))
+        @bookmark = Factory(:bookmark, :user => @user)
+      end
+
+      it "should destroy the bookmark" do
+        lambda do
+          delete :destroy, :id => @bookmark
+        end.should change(Bookmark, :count).by(-1)
+      end
     end
   end
 
 end
+

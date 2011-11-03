@@ -1,85 +1,61 @@
 class BookmarksController < ApplicationController
-  # GET /bookmarks
-  # GET /bookmarks.json
-  def index
-    @bookmarks = Bookmark.all
-    @title = "Home"
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @bookmarks }
+  #before_filter :authenticate, :only => [:new, :index, :create, :destroy]
+  #before_filter :authorized_user, :only => :destroy
+
+  before_filter :authenticate, :only => [:index, :new, :create, :destroy]
+  before_filter :authorized_user, :only => [:edit, :destroy]
+
+  def new
+      @title = "Register"
+      @bookmark = Bookmark.new
+
+        respond_to do |format|
+          format.html
+          format.json { render json: @user }
+        end
+  end
+
+  def create
+    @bookmark  = current_user.bookmarks.build(params[:bookmark])
+    if @bookmark.save
+      flash[:success] = "Bookmark created!"
+      redirect_to @bookmark
+    else
+        @title = "Create bookmark"
+        render 'new'
     end
   end
 
-  # GET /bookmarks/1
-  # GET /bookmarks/1.json
+  def destroy
+    @bookmark.destroy
+    redirect_back_or @bookmark
+  end
+
+  def index
+    @title = [current_user.first_name, current_user.last_name].join(" ")
+  end
+
   def show
     @bookmark = Bookmark.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @bookmark }
-    end
+    @title = @bookmark.name
   end
 
-  # GET /bookmarks/new
-  # GET /bookmarks/new.json
-  def new
-    @bookmark = Bookmark.new
-    @title = "New"
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @bookmark }
-    end
-  end
-
-  # GET /bookmarks/1/edit
-  def edit
-    @bookmark = Bookmark.find(params[:id])
-  end
-
-  # POST /bookmarks
-  # POST /bookmarks.json
-  def create
-    @bookmark = Bookmark.new(params[:bookmark])
-
-    respond_to do |format|
-      if @bookmark.save
-        format.html { redirect_to @bookmark, notice: 'Bookmark was successfully created.' }
-        format.json { render json: @bookmark, status: :created, location: @bookmark }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @bookmark.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /bookmarks/1
-  # PUT /bookmarks/1.json
   def update
     @bookmark = Bookmark.find(params[:id])
-
-    respond_to do |format|
-      if @bookmark.update_attributes(params[:bookmark])
-        format.html { redirect_to @bookmark, notice: 'Bookmark was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @bookmark.errors, status: :unprocessable_entity }
-      end
+    if @bookmark.update_attributes(params[:bookmark])
+      flash[:success] = "Bookmark updated!"
+      redirect_to @bookmark
+    else
+        @title = "Edit bookmark"
+        render 'edit'
     end
   end
 
-  # DELETE /bookmarks/1
-  # DELETE /bookmarks/1.json
-  def destroy
-    @bookmark = Bookmark.find(params[:id])
-    @bookmark.destroy
+  private
 
-    respond_to do |format|
-      format.html { redirect_to bookmarks_url }
-      format.json { head :ok }
+    def authorized_user
+      @bookmark = current_user.bookmarks.find_by_id(params[:id])
+      redirect_to root_path if @bookmark.nil?
     end
-  end
 end

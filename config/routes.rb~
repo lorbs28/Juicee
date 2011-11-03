@@ -1,10 +1,12 @@
 Juicee::Application.routes.draw do
   resources :bookmarks
   resources :users
+  resources :sessions, :only => [:new, :create, :destroy]
 
   root :to => 'users#index'
 
-
+  match '/signin',  :to => 'sessions#new'
+  match '/signout', :to => 'sessions#destroy'
   match '/bookmarks', :to => 'bookmarks#index', :as => :marks
   match "/register",  :to => 'users#new', :as => :register
   # The priority is based upon order of creation:

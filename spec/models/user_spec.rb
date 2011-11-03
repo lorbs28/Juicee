@@ -283,4 +283,46 @@ describe User do
           end
         end
     end
+
+    ##########################
+    # Model: User
+    # Test: tests for bookmark association to the user
+    #
+    ##########################
+    describe "bookmarks associations" do
+
+      before(:each) do
+        @user = User.create(@attr)
+         @mp1 = Factory(:bookmark, :user => @user, :created_at => 1.day.ago)
+         @mp2 = Factory(:bookmark, :user => @user, :created_at => 1.hour.ago)
+      end
+
+      it "should have a bookmarks attribute" do
+        @user.should respond_to(:bookmarks)
+      end
+
+      ##########################
+      # Model: User
+      # Test: test to make sure bookmarks are ordered in the correct possition by descending
+      #       order by date created, 'created_at'
+      #
+      ##########################
+      it "should have the right bookmarks in the right order" do
+        @user.bookmarks.should == [@mp2, @mp1]
+      end
+
+      ##########################
+      # Model: User
+      # Test: test to make sure bookmarks are destroyed accordingly that are associated
+      #       with the current user
+      #
+      ##########################
+      it "should destroy associated bookmarks" do
+        @user.destroy
+        [@mp1, @mp2].each do |bookmark|
+            Bookmark.find_by_id(bookmark.id).should be_nil
+        end
+      end
+
+    end
 end

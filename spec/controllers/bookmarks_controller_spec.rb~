@@ -28,8 +28,11 @@ describe BookmarksController do
   def valid_attributes
       {
           :url => 'www.yahoo.com',
-          :name => 'Yahoo',
-          :date => '2011-09-21' }
+          :name => 'Yahoo' }
+  end
+
+  before(:each) do
+    @base_title = "Juicee!"
   end
 
   describe "GET index" do
@@ -43,6 +46,13 @@ describe BookmarksController do
         get 'index'
       response.should be_success
     end
+
+    it "should have the right title" do
+        get 'index'
+        response.should have_selector("title",
+            :content => @base_title + " | Home")
+    end
+
   end
 
   describe "GET show" do
@@ -51,10 +61,6 @@ describe BookmarksController do
       get :show, :id => bookmark.id.to_s
       assigns(:bookmark).should eq(bookmark)
     end
-    it "should be successful" do
-      get 'show'
-      response.should be_success
-    end
   end
 
   describe "GET new" do
@@ -62,9 +68,16 @@ describe BookmarksController do
       get :new
       assigns(:bookmark).should be_a_new(Bookmark)
     end
+
     it "should be successful" do
         get 'new'
       response.should be_success
+    end
+
+    it "should have the right title" do
+        get 'new'
+        response.should have_selector("title",
+            :content => @base_title + " | New")
     end
   end
 
@@ -73,10 +86,6 @@ describe BookmarksController do
       bookmark = Bookmark.create! valid_attributes
       get :edit, :id => bookmark.id.to_s
       assigns(:bookmark).should eq(bookmark)
-    end
-    it "should be successful" do
-        get 'edit'
-      response.should be_success
     end
   end
 
