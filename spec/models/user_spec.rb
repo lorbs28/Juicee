@@ -84,6 +84,17 @@ describe User do
         long_first_name_user = User.new(@attr.merge(:first_name => long_first_name))
         long_first_name_user.should_not be_valid
     end
+    
+    ##########################
+    # Model: User
+    # Test: test to reject first names shorter than 2 characters
+    #
+    ##########################
+    it "should reject first names that are too short" do
+        short_first_name = "a" * 1
+        short_first_name_user = User.new(@attr.merge(:first_name => short_first_name))
+        short_first_name_user.should_not be_valid
+    end
 
     ##########################
     # Model: User
@@ -94,6 +105,17 @@ describe User do
         long_last_name = "a" * 76
         long_last_name_user = User.new(@attr.merge(:last_name => long_last_name))
         long_last_name_user.should_not be_valid
+    end
+    
+    ##########################
+    # Model: User
+    # Test: test to reject last names shorter than 2
+    #
+    ##########################
+    it "should reject last names that are too short" do
+        short_last_name = "a" * 1
+        short_last_name_user = User.new(@attr.merge(:last_name => short_last_name))
+        short_last_name_user.should_not be_valid
     end
 
     ##########################
@@ -192,6 +214,11 @@ describe User do
         end
     end
 
+    ##########################
+    # Model: User
+    # Test: tests for password encryption
+    #
+    ##########################
     describe "password encryption" do
 
         before(:each) do

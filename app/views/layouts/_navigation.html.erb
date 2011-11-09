@@ -1,5 +1,14 @@
+
 <h1>Navigation</h1>
+
 		<ul>
+		<li>
+	        <%= form_tag '#', :method => 'get' do %>
+		        	<%= text_field_tag :search, params[:search] %>
+		        	<br />
+		        	<%= submit_tag "Search", :name => nil %>
+		    <% end %>
+		</li>
 		    <li><%= link_to "Home", root_path %></li>
 		    <% if signed_in? %>
 		        <li><%= link_to "Profile", current_user %></li>
@@ -14,5 +23,7 @@
 		    <% end %>
 
 		    	<li><%= link_to 'Help', '#' %></li>
+
 		</ul>
+
 
